@@ -1,0 +1,33 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Router{% endblock %}
+
+{% block content %}
+    <h1>Router</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ router.id }}</td>
+            </tr>
+            <tr>
+                <th>Mac</th>
+                <td>{{ router.mac }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ router.active ? 'Si' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ router.address }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('client_show_routers', {'id':router.client.id}) }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('ata_edit', {'id': atum.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

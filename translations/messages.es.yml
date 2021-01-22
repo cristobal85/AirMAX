@@ -1,0 +1,4 @@
+###### ROLES
+ROLE_USER: Invitado
+ROLE_ADMIN: Instalador
+ROLE_SUPER_ADMIN: Administrador

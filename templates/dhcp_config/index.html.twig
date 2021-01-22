@@ -1,0 +1,30 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Configuración DHCP{% endblock %}
+
+{% block content %}
+    <h1 class="mb-5">Configuración DHCP</h1>
+
+    <table id="dtable" class="table">
+        <thead>
+            <tr>
+                <th>Fichero LOG</th>
+                <th>Script DHCP</th>
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dhcp_config in dhcp_configs %}
+            <tr>
+                <td>{{ dhcp_config.logPath }}</td>
+                <td>{{ dhcp_config.dhcpInitScript }}</td>
+                <td>
+                    <a class="text-primary" href="{{ path('dhcp_config_show', {'id': dhcp_config.id}) }}" title="Ver"><i class="fas fa-search-plus"></i></a>
+                    <a class="text-warning" href="{{ path('dhcp_config_edit', {'id': dhcp_config.id}) }}" title="Editar"><i class="far fa-edit"></i></a>
+                    <a class="text-info prompt-item" href="#" title="Importar de ficheros a Base de Datos" data-type="question" data-method="get" data-url="{{ path('dhcp_config_import', {'id': dhcp_config.id}) }}" data-confirm-text="Importar" data-title="Importar datos" data-message="¿Seguro que quiere remplazar los datos de la base de datos?"><i class="fas fa-download"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

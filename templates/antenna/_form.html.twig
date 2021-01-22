@@ -1,0 +1,30 @@
+{{ form_start(form) }}
+
+<h5 class="mt-5">Datos de instalación</h5>
+{{ form_row(form.mac) }}
+{{ form_row(form.active) }}
+{{ form_row(form.address) }}
+{{ form_row(form.notes) }}
+{{ form_row(form.ap) }}
+{{ form_row(form.manufacturer) }}
+<h5 class="mt-5">Localización</h5>
+{{ form_row(form.latitude) }}
+{{ form_row(form.longitude) }}
+<a href="javascript:void(0);" id="get-coords" class="btn btn-outline-info" data-latitude-id="antenna_latitude" data-longitude-id="antenna_longitude">
+    <i class="far fa-compass"></i> Obtener coordenadas
+</a>
+
+<h5 class="mt-5">Seguridad</h5>
+{{ form_row(form.sshCredential) }}
+{{ form_row(form.httpCredential) }}
+{{ form_row(form.snmpCredential) }}
+<h5 class="mt-5">Histórico de señales</h5>
+{{ form_row(form.antennaSignals, {'label': false}) }}
+
+{{ form_widget(form) }}
+<div class="text-right mt-5">
+    <a href="{{ path('client_show_antennas', {'id': antenna.client.id}) }}">Volver</a>
+    <button class="ml-2 btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Guardar') }}</button>
+</div>
+{{ form_end(form) }}
+

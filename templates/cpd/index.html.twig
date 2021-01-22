@@ -1,0 +1,42 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Cpd{% endblock %}
+
+{% block content %}
+    <h1>CPD</h1>
+
+    <table id="dtable" class="table">
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Dirección</th>
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cpd in cpds %}
+                <tr>
+                    <td>{{ cpd.name }}</td>
+                    <td>{{ cpd.latitude }}</td>
+                    <td>{{ cpd.longitude }}</td>
+                    <td>{{ cpd.address }}</td>
+                    <td class="td-options">
+                        <a class="text-primary" href="{{ path('cpd_show', {'id': cpd.id}) }}" title="Ver"><i class="fas fa-search-plus"></i></a>
+                        <a class="text-warning" href="{{ path('cpd_edit', {'id': cpd.id}) }}" title="Editar"><i class="far fa-edit"></i></a>
+                        <a class="text-danger prompt-item" href="#" title="Eliminar" data-dom-action="delete" data-method="delete" data-type="warning" data-url="{{ path('cpd_delete', {'id': cpd.id}) }}" data-confirm-text="Eliminar" data-title="Eliminar CPD" data-message="¿Seguro que quiere eliminar este elemento?"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No se encontraron registros.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a class="btn btn-primary" href="{{ path('cpd_new') }}"><i class="fas fa-plus"></i> Crear nuevo</a>
+    </div>
+{% endblock %}

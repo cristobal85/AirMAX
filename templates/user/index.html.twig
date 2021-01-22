@@ -1,0 +1,42 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+    <h1>Usuarios</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Nombre</th>
+                <th>Avatar</th>
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.name }}</td>
+                    <td><img src="{% if user.avatar is not empty %}{{ asset(IMAGES_UPLOAD ~ user.avatar) }}{% else %}{{ asset(APP_DEFAULT_AVATAR) }}{% endif %}" alt="{{ user }}" style="max-height:30px;"/></td>
+                    <td class="td-options">
+                        <a class="text-primary" href="{{ path('user_show', {'id': user.id}) }}" title="Ver"><i class="fas fa-search-plus"></i></a>
+                        <a class="text-warning" href="{{ path('user_edit', {'id': user.id}) }}" title="Editar"><i class="far fa-edit"></i></a>
+                        {% if user != app.user %}
+                            <a class="text-danger prompt-item" href="#" title="Eliminar" data-dom-action="delete" data-type="warning" data-method="delete" data-url="{{ path('user_delete', {'id': user.id}) }}" data-confirm-text="Eliminar" data-title="Eliminar Usuario" data-message="¿Seguro que quiere eliminar este elemento?"><i class="far fa-trash-alt"></i></a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No se encontraron registros</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a class="btn btn-primary" href="{{ path('user_new') }}"><i class="fas fa-plus"></i> Crear nuevo</a>
+    </div>
+{% endblock %}

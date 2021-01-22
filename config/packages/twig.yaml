@@ -1,2 +1,17 @@
 twig:
     default_path: '%kernel.project_dir%/templates'
+
+    globals:
+        ### < APP_ENV
+        APP_NAME: '%env(APP_NAME)%'
+        APP_LOGO: '%env(APP_LOGO)%'
+        APP_DEFAULT_AVATAR: '%env(APP_DEFAULT_AVATAR)%'
+        APP_DEFAULT_HEAD_IMAGE: '%env(APP_DEFAULT_HEAD_IMAGE)%'
+        ### > APP_ENV
+        
+        ### < FILE PATH
+        IMAGES_UPLOAD: '%env(WEB_IMAGES_UPLOAD)%/'
+        FILES_UPLOAD: '%env(WEB_FILES_UPLOAD)%/'
+        ### > FILE_PATH
+        
+    form_themes: ['bootstrap_4_layout.html.twig']

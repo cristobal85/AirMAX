@@ -1,0 +1,7 @@
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<div class="text-right mt-5">
+    <a href="{{ path('client_show_atas', {'id':atum.client.id}) }}">Volver</a>
+    <button class="ml-2 btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Guardar') }}</button>
+</div>
+{{ form_end(form) }}

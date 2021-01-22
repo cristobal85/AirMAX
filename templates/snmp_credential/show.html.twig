@@ -1,0 +1,29 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Credenciales SNMP{% endblock %}
+
+{% block content %}
+    <h1>Credenciales SNMP</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ snmp_credential.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ snmp_credential.title }}</td>
+            </tr>
+            <tr>
+                <th>Community</th>
+                <td>{{ snmp_credential.community }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('snmp_credential_index') }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('snmp_credential_edit', {'id': snmp_credential.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

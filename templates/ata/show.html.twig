@@ -1,0 +1,37 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}ATA{% endblock %}
+
+{% block content %}
+    <h1>Ata</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ atum.id }}</td>
+            </tr>
+            <tr>
+                <th>MAC</th>
+                <td>{{ atum.mac }}</td>
+            </tr>
+            <tr>
+                <th>Teléfono</th>
+                <td>{{ atum.phone }}</td>
+            </tr>
+            <tr>
+                <th>Activo</th>
+                <td>{{ atum.active ? 'Si' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Dirección</th>
+                <td>{{ atum.address }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('client_show_atas', {'id':atum.client.id}) }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('ata_edit', {'id': atum.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+    <h1 class="mb-5">Clientes</h1>
+
+    <table id="dtable" class="table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Dirección</th>
+                <th>Antenas</th>
+                {% if DHCP_CONFIG.ataPath is not empty %}<th>ATAs</th>{% endif %}
+                {% if DHCP_CONFIG.routerPath is not empty %}<th>Routers</th>{% endif %}
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients|reverse %}
+                <tr>
+                    <td>{{ client.code }}</td>
+                    <td>{{ client.name }}</td>
+                    <td>{{ client.adress }}</td>
+                    <td>{% if client.antennas is not empty %}{{ client.antennas|join(', ') }}{% endif %}</td>
+                    {% if DHCP_CONFIG.ataPath is not empty %}<td>{% if client.atas is not empty %}{{ client.atas|join(', ') }}{% endif %}</td>{% endif %}
+                    {% if DHCP_CONFIG.routerPath is not empty %}<td>{% if client.routers is not empty %}{{ client.routers|join(', ') }}{% endif %}</td>{% endif %}
+                    <td>
+                        <a class="text-primary" href="{{ path('client_show', {'id': client.id}) }}" title="Más detalles">
+                            <i class="fas fa-search-plus"></i>
+                        </a>
+                        <a class="text-black" href="{{ path('client_show_antennas', {'id': client.id}) }}" title="Ver antenas">
+                            <i class="fas fa-wifi"></i>
+                        </a>
+                        {% if DHCP_CONFIG.ataPath is not empty %}
+                            <a class="text-black" href="{{ path('client_show_atas', {'id': client.id}) }}" title="Ver ATAs">
+                                <i class="fas fa-phone"></i>
+                            </a>
+                        {% endif %}
+                        {% if DHCP_CONFIG.routerPath is not empty %}
+                            <a class="text-black" href="{{ path('client_show_routers', {'id': client.id}) }}" title="Ver ROUTERs">
+                                <i class="fas fa-at"></i>
+                            </a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="text-warning" href="{{ path('client_edit', {'id': client.id}) }}" title="Editar">
+                                <i class="far fa-edit"></i>
+                            </a>
+                            <a class="text-danger prompt-item" href="#" title="Eliminar" data-dom-action="delete" data-method="delete" data-type="warning" data-url="{{ path('client_delete', {'id': client.id}) }}" data-confirm-text="Eliminar" data-title="Eliminar Cliente" data-message="¿Seguro que quiere eliminar este cliente?">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No se encontró ningún registro</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="text-right mt-5">
+            <a class="btn btn-primary" href="{{ path('client_new') }}"><i class="fas fa-plus"></i> Nuevo cliente</a>
+        </div>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="assets/css/authentication/form-2.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/theme-checkbox-radio.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/forms/switches.css" />
+    <style>
+        canvas{ display: block; vertical-align: bottom; } #particles-js{ position:absolute; width: 100%; height: 100%; background-color: #339cbc; background-image: url(""); background-repeat: no-repeat; background-size: cover; background-position: 50% 50%; } /* ---- stats.js ---- */ .count-particles{ background: #000022; position: absolute; top: 48px; left: 0; width: 80px; color: #13E8E9; font-size: .8em; text-align: left; text-indent: 4px; line-height: 14px; padding-bottom: 2px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; } .js-count-particles{ font-size: 1.1em; } #stats, .count-particles{ -webkit-user-select: none; margin-top: 5px; margin-left: 5px; } #stats{ border-radius: 3px 3px 0 0; overflow: hidden; } .count-particles{ border-radius: 0 0 3px 3px; }
+    </style>
+{% endblock %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block body %}
+    <div id="particles-js"></div>
+    <div class="form-container outer">
+        <div class="form-form">
+            <div class="form-form-wrap">
+                <div class="form-container">
+                    <div class="form-content" style="z-index:999;">
+
+                        <h1 class="">Iniciar sesión</h1>
+                        <p class="">Ingresa tus credenciales para continuar.</p>
+
+                        {% if error %}
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                        {% endif %}
+
+                        <form method="post" class="text-left">
+                            <div class="form">
+
+                                <div id="username-field" class="field-wrapper input">
+                                    <label for="inputEmail">Email</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus placeholder="Email">
+                                </div>
+
+                                <div id="password-field" class="field-wrapper input mb-2">
+                                    <div class="d-flex justify-content-between">
+                                        <label for="password">Contraseña</label>
+                                    </div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-lock"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                    <input id="password" name="password" type="password" class="form-control" placeholder="Password">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" id="toggle-password" class="feather feather-eye"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                </div>
+
+                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+
+
+                                <div class="checkbox mb-3">
+                                    <label>
+                                        <input type="checkbox" name="_remember_me" checked="true"> Recordarme
+                                    </label>
+                                </div>
+                                <div class="d-sm-flex justify-content-between">
+                                    <div class="field-wrapper">
+                                        <button type="submit" class="btn btn-primary" value="">Entrar</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/js/authentication/form-2.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="https://threejs.org/examples/js/libs/stats.min.js"></script>
+
+    <script>
+        particlesJS("particles-js", {
+            "particles": {
+                "number": {
+                    "value":80, 
+                    "density": {
+                        "enable":true, 
+                        "value_area":800
+                    }
+                }, 
+                "color": {
+                    "value":"#ffffff"
+                }, 
+                "shape": {
+                    "type":"circle", 
+                    "stroke": {
+                        "width":0, 
+                        "color":"#000000"
+                    }, 
+                    "polygon": {
+                        "nb_sides":5
+                    }, 
+                    "image": {
+                        "src":"img/github.svg", 
+                        "width":100, 
+                        "height":100
+                    }
+                }, 
+                "opacity": {
+                    "value":0.5, 
+                    "random":false, 
+                    "anim": {
+                        "enable":false, 
+                        "speed":1, 
+                        "opacity_min":0.1, 
+                        "sync":false
+                    }
+                }, 
+                "size": {
+                    "value":3, 
+                    "random":true, 
+                    "anim": {
+                        "enable":false, 
+                        "speed":40, 
+                        "size_min":0.1, 
+                        "sync":false
+                    }
+                }, 
+                "line_linked": {
+                    "enable":true, 
+                    "distance":150, 
+                    "color":"#ffffff", 
+                    "opacity":0.4, 
+                    "width":1
+                }, 
+                "move": {
+                    "enable":true, 
+                    "speed":6, 
+                    "direction":"none", 
+                    "random":false, 
+                    "straight":false, 
+                    "out_mode":"out", 
+                    "bounce":false, 
+                    "attract": {
+                        "enable":false, 
+                        "rotateX":600, 
+                        "rotateY":1200
+                    }
+                }
+            }, 
+            "interactivity": {
+                "detect_on":"canvas", 
+                "events": {
+                    "onhover": {
+                        "enable":true, 
+                        "mode":"grab"
+                    }, 
+                    "onclick": {
+                        "enable":true, 
+                        "mode":"push"
+                    }, 
+                    "resize":true
+                }, 
+                "modes": {
+                    "grab": {
+                        "distance":400, 
+                        "line_linked": {
+                            "opacity":1
+                        }
+                    }, 
+                    "bubble": {
+                        "distance":400, 
+                        "size":40, 
+                        "duration":2, 
+                        "opacity":8, 
+                        "speed":3
+                    }, 
+                    "repulse": {
+                        "distance":200, 
+                        "duration":0.4
+                    }, 
+                    "push": {
+                        "particles_nb":4
+                    }, 
+                    "remove": {
+                        "particles_nb":2
+                    }
+                }
+            }, 
+            "retina_detect":true
+        }); 
+    </script>
+{% endblock %}

@@ -5,6 +5,7 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/uploads/
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
@@ -14,3 +15,10 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+###> APP ###
+/nbproject/
+/nbproject/private/
+/private_assets/**
+public/node_modules/
+###< APP ###

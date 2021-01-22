@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear usuario administrador{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/jquery-step/jquery.steps.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    {#    <link href="{{ asset('plugins/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css">#}
+    <style>
+        #formValidate .wizard > .content {min-height: 25em;}
+        #example-vertical.wizard > .content {min-height: 24.5em;}
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="col-lg-12 layout-spacing mt-5">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-header">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h4 class="text-center p-3">Usuario administrador</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content widget-content-area">
+                
+                {{ form_start(registrationForm) }}
+                {{ form_widget(registrationForm) }}
+                <div class="text-right mt-5">
+                    <a href="{{ path('install') }}">Volver</a>
+                    <button class="ml-2 btn btn-primary"><i class="far fa-save"></i> {{ button_label|default('Guardar') }}</button>
+                </div>
+                {{ form_end(registrationForm) }}
+            </div>
+
+
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="{{ asset('assets/js/scrollspyNav.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-step/jquery.steps.min.js') }}"></script>
+    <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/custom-steps.js') }}"></script>
+{% endblock %}

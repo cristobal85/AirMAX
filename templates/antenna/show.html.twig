@@ -1,0 +1,49 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Antena{% endblock %}
+
+{% block content %}
+    <h1>Antenna</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ antenna.id }}</td>
+            </tr>
+            <tr>
+                <th>Mac</th>
+                <td>{{ antenna.mac }}</td>
+            </tr>
+            <tr>
+                <th>Latitude</th>
+                <td>{{ antenna.latitude }}</td>
+            </tr>
+            <tr>
+                <th>Longitude</th>
+                <td>{{ antenna.longitude }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ antenna.active ? 'Si' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Address</th>
+                <td>{{ antenna.address }}</td>
+            </tr>
+            <tr>
+                <th>Notes</th>
+                <td>{{ antenna.notes }}</td>
+            </tr>
+            <tr>
+                <th>CactiNodeId</th>
+                <td>{{ antenna.cactiNodeId }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('client_show_antennas', {'id': antenna.client.id}) }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('antenna_edit', {'id': antenna.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

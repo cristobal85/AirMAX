@@ -1,12 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+        <title>{{ APP_NAME }} | {% block title %}{% endblock %}</title>
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon/favicon-16x16.png">
+        <link rel="manifest" href="/assets/site.webmanifest">
+        <meta name="msapplication-TileColor" content="#2d89ef">
+        <meta name="theme-color" content="#ffffff">
+
+        {# GLOBAL CSS #}
+        <link href="{{ asset('assets/css/loader.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ asset('assets/js/loader.js') }}"></script>
+        <link href="https://fonts.googleapis.com/css?family=Quicksand:400,500,600,700&display=swap" rel="stylesheet">
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/plugins.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"/>
+        {# GLOBAL CSS #}
+
         {% block stylesheets %}{% endblock %}
+
     </head>
     <body>
+        <div id="load_screen"> 
+            <div class="loader"> 
+                <div class="loader-content">
+                    <div class="spinner-grow align-self-center"></div>
+                </div>
+            </div>
+        </div>
+
         {% block body %}{% endblock %}
+
+        {# GLOBAL SCRIPTS #}
+        <script src="{{ asset('assets/js/libs/jquery-3.1.1.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/popper.min.js') }}"></script>
+        <script src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js"></script>
+        {# GLOBAL SCRIPTS #}
+        
         {% block javascripts %}{% endblock %}
     </body>
 </html>

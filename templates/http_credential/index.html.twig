@@ -1,0 +1,49 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Credenciales HTTP{% endblock %}
+
+{% block content %}
+    <h1>Credenciales HTTP</h1>
+
+    <table id="dtable" class="table">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Usuario</th>
+                <th>Contraseña</th>
+                <th>Puerto</th>
+                <th>Protocolo</th>
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for http_credential in http_credentials %}
+                <tr>
+                    <td>{{ http_credential.title }}</td>
+                    <td>{{ http_credential.username }}</td>
+                    <td>**********</td>
+                    <td>{{ http_credential.port }}</td>
+                    <td>{{ http_credential.protocol }}</td>
+                    <td>
+                        <a class="text-primary" href="{{ path('http_credential_show', {'id': http_credential.id}) }}" title="Ver"><i class="fas fa-search-plus"></i></a>
+                        <a class="text-warning" href="{{ path('http_credential_edit', {'id': http_credential.id}) }}" title="Editar"><i class="far fa-edit"></i></a>
+                        <a class="text-danger prompt-item" href="javascript:void(0);" title="Eliminar" data-dom-action="delete" data-method="delete" data-type="warning" data-url="{{ path('http_credential_delete', {'id': http_credential.id}) }}" data-confirm-text="Eliminar" data-title="Eliminar credenciales" data-message="¿Seguro que quiere eliminar estas credenciales?">
+                            <i class="far fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">No se encontraron registros.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('http_credential_index') }}">Volver</a>
+        <a class="btn btn-primary ml-2" href="{{ path('http_credential_new') }}">
+            <i class="fas fa-plus"></i> Nuevas credenciales
+        </a>
+    </div>
+{% endblock %}

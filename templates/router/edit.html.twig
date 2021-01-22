@@ -1,0 +1,8 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Editar Router{% endblock %}
+
+{% block content %}
+    <h1>Editar Router</h1>
+    {{ include('router/_form.html.twig', {'button_label': 'Guardar'}) }}
+{% endblock %}

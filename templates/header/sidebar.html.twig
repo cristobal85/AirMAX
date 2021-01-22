@@ -1,0 +1,107 @@
+<div class="sidebar-wrapper sidebar-theme">
+
+    <nav id="sidebar">
+        <div class="profile-info">
+            <figure class="user-cover-image" style="background: url('{{ asset(APP_DEFAULT_HEAD_IMAGE) }}')"></figure>
+            <div class="user-info">
+                <img src="{{ asset( APP_DEFAULT_AVATAR ) }}" alt="avatar">
+                <h6 class="">{{ app.user }}</h6>
+                <p class="">{{ app.user.lastRole|trans }}</p>
+            </div>
+        </div>
+        <div class="shadow-bottom"></div>
+        <ul class="list-unstyled menu-categories" id="accordionExample">
+
+            <li class="menu menu-heading">
+                <div class="heading text-muted"><i class="fas fa-tasks"></i><span> Administración </span></div>
+            </li>
+
+            <li class="menu {% if app.request.get('_route') starts with  'client' %}active{% endif %}">
+                <a href="{{ path('client_index') }}" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <i class="fas fa-users"></i>
+                        <span>Clientes</span>
+                    </div>
+                </a>
+            </li>
+
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li class="menu menu-heading">
+                    <div class="heading text-muted"><i class="fas fa-server"></i><span> Sistema </span></div>
+                </li>
+                <li class="menu {% if app.request.get('_route') starts with  'system_' %}active{% endif %}">
+                    <a href="{{ path('system_log') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <i class="fas fa-file-medical-alt"></i>
+                            <span>LOG</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu menu-heading">
+                    <div class="heading text-muted"><i class="fas fa-cogs"></i><span> Configuración</span></div>
+                </li>                    
+
+                <li class="menu {% if '_credential_' in app.request.get('_route') %}active{% endif %}">
+                    <a href="#credentials" data-toggle="collapse" aria-expanded="{% if '_credential_' in app.request.get('_route') %}true{% endif %}" class="dropdown-toggle">
+                        <div class="">
+                            <i class="fas fa-unlock-alt"></i>
+                            <span>Credenciales</span>
+                        </div>
+                    </a>
+                    <ul class="collapse submenu list-unstyled {% if '_credential_' in app.request.get('_route') %}show{% endif %}" id="credentials" data-parent="#accordionExample">
+                        <li class="{% if app.request.get('_route') starts with  'http_credential_' %}active{% endif %}">
+                            <a href="{{ path('http_credential_index') }}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <span>Credenciales HTTP</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="{% if app.request.get('_route') starts with  'ssh_credential_' %}active{% endif %}">
+                            <a href="{{ path('ssh_credential_index') }}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <span>Credenciales SSH</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="{% if app.request.get('_route') starts with  'snmp_credential_' %}active{% endif %}">
+                            <a href="{{ path('snmp_credential_index') }}" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <span>Credenciales SNMP</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+                <li class="menu {% if app.request.get('_route') starts with  'dhcp_config_' %}active{% endif %}">
+                    <a href="{{ path('dhcp_config_index') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <i class="fas fa-server"></i>
+                            <span>DHCP</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu {% if app.request.get('_route') starts with  'cpd' %}active{% endif %}">
+                    <a href="{{ path('cpd_index') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <i class="far fa-building"></i>
+                            <span>CPDs</span>
+                        </div>
+                    </a>
+                </li>
+
+                <li class="menu {% if app.request.get('_route') starts with  'user_' %}active{% endif %}">
+                    <a href="{{ path('user_index') }}" aria-expanded="false" class="dropdown-toggle">
+                        <div class="">
+                            <i class="fas fa-users-cog"></i>
+                            <span>Usuarios</span>
+                        </div>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

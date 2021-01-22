@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Proceso de instalación{% endblock %}
+
+{% block stylesheets %}
+    <link href="{{ asset('assets/css/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/jquery-step/jquery.steps.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css">
+    {#    <link href="{{ asset('plugins/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css">#}
+    <style>
+        #formValidate .wizard > .content {min-height: 25em;}
+        #example-vertical.wizard > .content {min-height: 24.5em;}
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="col-lg-12 layout-spacing mt-5">
+        <div class="statbox widget box box-shadow">
+            <div class="widget-header">
+                <div class="row">
+                    <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                        <h4 class="text-center p-3">Proceso de instalación</h4>
+                        <div id="install-loader" class="mt-3 mb-2 text-center d-none">
+                            <span class="spinner-grow text-info align-self-center"></span>
+                            <h5>Instalando</h5>
+                            <p>La instalación puede durar unos minutos. No refresque la página por favor.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-content widget-content-area">
+                {% for flash_message in app.session.flashbag.get('error') %}
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        {{ flash_message }}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                {% endfor %}
+                <form id="install-form" action="{{ path('install_post') }}" method="POST">
+                    <div>
+                        <h3><i class="far fa-building"></i> Empresa</h3>
+                        <section>
+                            <div id="cpd_form">
+                                {{ form_widget(cpdForm) }}
+                            </div>
+                        </section>
+                        <h3><i class="fas fa-database"></i> Base de datos</h3>
+                        <section>
+                            <div id="db_form">
+                                {{ form_widget(dbForm) }}
+                            </div>
+
+                            <input type="text" name="dbConnected" id="dbConnected" value="false" class="invisible" />
+                            <a href="#" id="check-db-connection" class="btn btn-light-primary">
+                                <div class="spinner spinner-grow align-self-center d-none"></div> Conectar
+                            </a>
+                        </section>
+                        <h3><i class="fas fa-server"></i> DHCP</h3>
+                        <section>
+
+                            <div id="dhcp_config_form">
+                                <h5><i class="fas fa-network-wired"></i> Conexión</h5>
+                                {{ form_row(dhcpConfigForm.host) }}
+                                {{ form_row(dhcpConfigForm.port) }}
+                                {{ form_row(dhcpConfigForm.username) }}
+                                {{ form_row(dhcpConfigForm.password) }}
+
+                                <h5><i class="far fa-folder"></i> Ficheros</h5>
+                                {{ form_row(dhcpConfigForm.logPath) }}
+                                {{ form_row(dhcpConfigForm.dhcpMainFile) }}
+                                {{ form_row(dhcpConfigForm.staticPath) }}
+                                {{ form_row(dhcpConfigForm.antennaPath) }}
+                                {{ form_row(dhcpConfigForm.ataPath) }}
+                                {{ form_row(dhcpConfigForm.routerPath) }}
+                                
+                                <h5><i class="fas fa-cogs"></i> Configuración</h5>
+                                {{ form_row(dhcpConfigForm.antennaSubclass) }}
+                                {{ form_row(dhcpConfigForm.ataSubclass) }}
+                                {{ form_row(dhcpConfigForm.routerSubclass) }}
+                                {{ form_row(dhcpConfigForm.dhcpInitScript) }}
+                            </div>
+
+                            <input type="text" name="dhcpConnect" id="dhcpConnect" value="false" class="invisible"/>
+                            <a href="#" id="check-dhcp-connection" class="btn btn-light-primary">
+                                <div class="spinner spinner-grow align-self-center d-none"></div> Conectar
+                            </a>
+                        </section>
+
+                        <p class="p-5">(*) Campos requeridos</p>
+                    </div>
+                </form>
+            </div>
+
+
+
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="{{ asset('assets/js/scrollspyNav.js') }}"></script>
+    <script src="{{ asset('plugins/jquery-step/jquery.steps.min.js') }}"></script>
+    <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+
+    <script src="{{ asset('assets/js/custom-steps.js') }}"></script>
+{% endblock %}

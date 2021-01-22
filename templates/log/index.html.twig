@@ -1,0 +1,31 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Log del sistema{% endblock %}
+
+{% block content %}
+    <h1>LOG del sistema</h1>
+
+
+    <div class="jumbotron">
+        {# Contenido del modal via AJAX #}
+        <p class="modal-text">
+        <pre id="logContent"></pre>
+    </p>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        (function showLog() {
+            $.get('{{ path('system_log_show') }}')
+                    .done(function (response) {
+                        $('#logContent').text(response);
+                    })
+                    .fail(function (response) {
+                        location.href = location.href;
+                    })
+                    ;
+            timeOut = setTimeout(showLog, 10000);
+        })();
+    </script>
+{% endblock %}

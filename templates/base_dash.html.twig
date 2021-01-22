@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/table/datatable/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/table/datatable/dt-global_style.css') }}">
+{% endblock %}
+
+{% block body %}
+    {{ include('header/navbar.html.twig') }}
+
+    <!--  BEGIN MAIN CONTAINER  -->
+    <div class="main-container" id="container">
+
+        <div class="overlay"></div>
+        <div class="search-overlay"></div>
+
+        {{ include('header/sidebar.html.twig') }}
+
+        <!--  BEGIN CONTENT AREA  -->
+        <div id="content" class="main-content">
+            <div class="layout-px-spacing">
+                <div class="row layout-top-spacing" id="cancel-row">
+                    <div class="col-xl-12 col-lg-12 col-sm-12  layout-spacing">
+                        <div class="widget-content widget-content-area br-6">
+                            {% for label, messages in app.flashes(['info', 'warning', 'danger', 'success']) %}
+                                {% for message in messages %}
+                                    <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            <div class="table-responsive mb-4 mt-4">
+                                {% block content %}{% endblock %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    <script src="{{ asset('plugins/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            App.init();
+        });
+    </script>
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('plugins/sweetalerts/sweetalert2.min.js') }}"></script>
+    <script src="{{ asset('plugins/table/datatable/datatables.js') }}"></script>
+    <script src="{{ asset('plugins/table/datatable/accent-neutralise.js') }}"></script>
+    <script src="{{ asset('assets/js/add-entity.js') }}"></script>
+    
+    <script>
+        $('#dtable').DataTable({
+            "oLanguage": {
+                "oPaginate": {
+                    "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>',
+                    "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>',
+                },
+                "sInfo": "Mostrando página _PAGE_ de _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Buscar...",
+                "sLengthMenu": "Resultados :  _MENU_",
+                "sInfoFiltered": " (filtrado de _MAX_ regitros)",
+                "sInfoEmpty": "No coincide ningún registro",
+                "sZeroRecords": "No se encontraron registros",
+                "sProcessing": "Cargando datos ..."
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10,
+            "aaSorting": [],
+        });
+    </script>
+    <script src="{{ asset('assets/js/get-location.js') }}"></script>
+    <script src="{{ asset('assets/js/crud-action.js') }}"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+{% endblock %}
+

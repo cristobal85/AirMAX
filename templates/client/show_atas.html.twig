@@ -1,0 +1,63 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Cliente {{ client }} | ATAs{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <h1 class="display-4">({{ client.code }}) {{ client.name }}</h1>
+        <p class="lead">ATAs</p>
+    </div>
+
+    <table id="dtable" class="table">
+        <thead>
+            <tr>
+                <th>MAC</th>
+                <th>Teléfono</th>
+                <th>Activo</th>
+                <th>Dirección</th>
+                <th class="no-content"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for atum in client.atas %}
+                <tr>
+                    <td>{{ atum.mac }}</td>
+                    <td>{{ atum.phone }}</td>
+                    <td>{{ atum.active ? 'Si' : 'No' }}</td>
+                    <td>{{ atum.address }}</td>
+                    <td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a class="text-primary showIp" href="javascript:void(0);" data-url="{{ path('ata_remote_access', {'id': atum.id}) }}" title="Acceso remoto">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a class="text-warning" href="{{ path('ata_edit', {'id': atum.id}) }}" title="Editar"><i class="far fa-edit"></i></a>
+                            <a class="text-danger prompt-item" href="javascript:void(0);" title="Eliminar" data-dom-action="delete" data-method="delete" data-type="warning" data-url="{{ path('ata_delete', {'id': atum.id}) }}" data-confirm-text="Eliminar" data-title="Eliminar ATA" data-message="¿Seguro que quiere eliminar este ATA?">
+                                <i class="far fa-trash-alt"></i>
+                            </a>
+                        {% endif %}
+                        <a class="text-dark" id="showLog" data-modal="logModal" data-url="{{ path('ata_show_log', {'id': atum.id}) }}" href="javascript:void(0);" title="Mostrar LOG">
+                            <i class="fas fa-server"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">No se encontraron registros.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('client_index') }}">Volver</a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <a class="btn btn-primary ml-2" href="{{ path('ata_new', {id:client.id}) }}">
+                <i class="fas fa-plus"></i> Nuevo ATA
+            </a>
+        {% endif %}
+    </div>
+
+
+    {{ include('modals/log.html.twig') }}
+
+{% endblock %}

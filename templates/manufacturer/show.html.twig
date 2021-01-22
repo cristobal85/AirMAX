@@ -1,0 +1,25 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Fabricante{% endblock %}
+
+{% block content %}
+    <h1>Fabricante</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ manufacturer.id }}</td>
+            </tr>
+            <tr>
+                <th>Nombre</th>
+                <td>{{ manufacturer.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('manufacturer_index') }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('manufacturer_edit', {'id': manufacturer.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Editar Credenciales HTTP{% endblock %}
+
+{% block content %}
+    <h1>Editar Credenciales HTTP</h1>
+    {{ include('http_credential/_form.html.twig', {'button_label': 'Guardar'}) }}
+{% endblock %}

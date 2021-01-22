@@ -1,0 +1,69 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}DhcpConfig{% endblock %}
+
+{% block content %}
+    <h1>DhcpConfig</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Fichero LOG</th>
+                <td>{{ dhcp_config.logPath }}</td>
+            </tr>
+            <tr>
+                <th>Host</th>
+                <td>{{ dhcp_config.host }}</td>
+            </tr>
+            <tr>
+                <th>Usuario</th>
+                <td>{{ dhcp_config.username }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>****</td>
+            </tr>
+            <tr>
+                <th>Puerto</th>
+                <td>{{ dhcp_config.port }}</td>
+            </tr>
+            <tr>
+                <th>Fichero CPEs</th>
+                <td>{{ dhcp_config.antennaPath }}</td>
+            </tr>
+            <tr>
+                <th>Fichero ATAs</th>
+                <td>{{ dhcp_config.ataPath }}</td>
+            </tr>
+            <tr>
+                <th>Fichero Router</th>
+                <td>{{ dhcp_config.routerPath }}</td>
+            </tr>
+            <tr>
+                <th>Ficher IPs estáticas</th>
+                <td>{{ dhcp_config.staticPath }}</td>
+            </tr>
+            <tr>
+                <th>Subclass DHCP para ANTENAS</th>
+                <td>{{ dhcp_config.antennaSubclass }}</td>
+            </tr>
+            <tr>
+                <th>Subclass DHCP para ATAs</th>
+                <td>{{ dhcp_config.ataSubclass }}</td>
+            </tr>
+            <tr>
+                <th>Subclass DHCP para ROUTERs</th>
+                <td>{{ dhcp_config.routerSubclass }}</td>
+            </tr>
+            <tr>
+                <th>Script de servicio</th>
+                <td>{{ dhcp_config.dhcpInitScript }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="text-right mt-5">
+        <a href="{{ path('dhcp_config_index') }}">Volver</a>
+        <a class="btn btn-warning ml-2" href="{{ path('dhcp_config_edit', {'id': dhcp_config.id}) }}"><i class="far fa-edit"></i> Editar</a>
+    </div>
+{% endblock %}

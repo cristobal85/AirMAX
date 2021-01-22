@@ -1,0 +1,8 @@
+{% extends 'base_dash.html.twig' %}
+
+{% block title %}Editar configuración{% endblock %}
+
+{% block content %}
+    <h1>Editar configuración</h1>
+    {{ include('dhcp_config/_form.html.twig', {'button_label': 'Guardar'}) }}
+{% endblock %}
