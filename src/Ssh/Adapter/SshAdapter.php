@@ -29,7 +29,7 @@ class SshAdapter implements SshAdapterInterface {
     public function exec(string $command): string {
         $output = $this->ssh->exec($command);
         $status = $this->ssh->getExitStatus();
-        if ($status != SshAdapterInterface::LINUX_COMMAND_STATUS_SUCCESS || !$status) {
+        if ($status != SshAdapterInterface::LINUX_COMMAND_STATUS_SUCCESS) {
             if (empty($output)) {
                 throw new SshExecException('Hubo un error al ejecutar el comando: '. (string)$command);
             }
