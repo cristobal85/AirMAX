@@ -3,7 +3,7 @@
 namespace App\EventSubscriber;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Impulze\Bundle\InterventionImageBundle\ImageManager;
+use Intervention\Image\ImageManager;
 use Vich\UploaderBundle\Mapping\PropertyMapping;
 use Vich\UploaderBundle\Event\Event;
 
