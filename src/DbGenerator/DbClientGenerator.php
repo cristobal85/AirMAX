@@ -29,7 +29,8 @@ class DbClientGenerator extends DbGenerator implements DbGeneratorInterface {
             $cpeStr = new UnicodeString($cpe);
             $clientFromFile = $cpeStr->match('/.*- (\d+) - ([^⁻]+)-(.*)$/');
             if (!empty($clientFromFile)) {  // ¿BLANK LINE?
-                if (!$clientRep->findOneBy(['code' => (int) $clientFromFile[1]])) {
+                $clientCode = (int) $clientFromFile[1];
+                if (!$clientRep->findOneBy(['code' => $clientCode])) {
                     $client = new Client();
                     $client
                             ->setCode((int) $clientFromFile[1])
@@ -44,10 +45,12 @@ class DbClientGenerator extends DbGenerator implements DbGeneratorInterface {
                     }
 
                     $em->persist($client);
+                    $em->flush();
+                    // TODO: catch exception
                 }
             }
         }
-        $em->flush(); // TODO: catch exception
+         
     }
 
 }
