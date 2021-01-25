@@ -23,6 +23,9 @@ class DbAtaGenerator extends DbGenerator implements DbGeneratorInterface {
         if (!$dhcpConfig->getAtaPath()) {
             return;
         }
+        $clientRep = $em->getRepository(Client::class);
+        $ataRep = $em->getRepository(Ata::class);
+        ;
         $ataFile = $this->sshAdapter->exec('cat ' . $dhcpConfig->getAtaPath());
         $atas = explode(PHP_EOL, $ataFile);
         if (empty($atas)) {
@@ -32,28 +35,30 @@ class DbAtaGenerator extends DbGenerator implements DbGeneratorInterface {
             $ataStr = new UnicodeString($ata);
             $ataFromFile = $ataStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # (\d+) - (\d+) - .* - (.*)$/');
             if (!empty($ataFromFile)) { // ¿BLANK LINE o comment?
-                $clientRep = $em->getRepository(Client::class);
-                $client = $clientRep->findOneBy(['code' => (int) trim($ataFromFile[4])]);
-                if ($client) {
-                    $ataModel = new Ata();
-                    $ataModel
-                            ->setClient($client)
-                            ->setMac(trim($ataFromFile[1]))
-                            ->setPhone(trim($ataFromFile[5]))
-                            ->setAddress(trim($ataFromFile[6]))
-                    ;
+                $mac = (int) $cpeFromFile[1];
+                if (!$ataRep->findOneBy(['mac' => $mac])) {
+                    $client = $clientRep->findOneBy(['code' => (int) trim($ataFromFile[4])]);
+                    if ($client) {
+                        $ataModel = new Ata();
+                        $ataModel
+                                ->setClient($client)
+                                ->setMac(trim($ataFromFile[1]))
+                                ->setPhone(trim($ataFromFile[5]))
+                                ->setAddress(trim($ataFromFile[6]))
+                        ;
 
-                    $errors = $this->validator->validate($ataModel);
-                    if (count($errors) > 0) {
-                        $errorsString = (string) $errors;
-                        throw new DbAtaGeneratorException($errorsString . 'MAC: ' . $ataModel->getMac());
+                        $errors = $this->validator->validate($ataModel);
+                        if (count($errors) > 0) {
+                            $errorsString = (string) $errors;
+                            throw new DbAtaGeneratorException($errorsString . 'MAC: ' . $ataModel->getMac());
+                        }
+
+                        $em->persist($ataModel);
+                        $em->flush();
                     }
-
-                    $em->persist($ataModel);
                 }
             }
         }
-        $em->flush();
     }
 
 }

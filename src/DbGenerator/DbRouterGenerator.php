@@ -21,8 +21,10 @@ class DbRouterGenerator extends DbGenerator implements DbGeneratorInterface {
      */
     public function generate(DhcpConfig $dhcpConfig, EntityManagerInterface $em) {
         if (!$dhcpConfig->getRouterPath()) {
-            return ;
+            return;
         }
+        $clientRep = $em->getRepository(Client::class);
+        $routerRep = $em->getRepository(Router::class);
         $routerFile = $this->sshAdapter->exec('cat ' . $dhcpConfig->getRouterPath());
         $routers = explode(PHP_EOL, $routerFile);
         if (empty($routers)) {
@@ -32,29 +34,29 @@ class DbRouterGenerator extends DbGenerator implements DbGeneratorInterface {
             $routerStr = new UnicodeString($router);
             $routerFromFile = $routerStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # (\d+) - .* - (.*)$/');
             if (!empty($routerFromFile)) { // ¿BLANK LINE o comment?
-                $clientRep = $em->getRepository(Client::class);
-                $client = $clientRep->findOneBy(['code' => trim($routerFromFile[4])]);
-                if ($client) {
-                    $routerModel = new Router();
-                    $routerModel
-                            ->setClient($client)
-                            ->setMac(trim($routerFromFile[1]))
-                            ->setAddress(trim($routerFromFile[5]))
-                            ;
+                $mac = (int) $cpeFromFile[1];
+                if (!$routerRep->findOneBy(['mac' => $mac])) {
+                    $client = $clientRep->findOneBy(['code' => trim($routerFromFile[4])]);
+                    if ($client) {
+                        $routerModel = new Router();
+                        $routerModel
+                                ->setClient($client)
+                                ->setMac(trim($routerFromFile[1]))
+                                ->setAddress(trim($routerFromFile[5]))
+                        ;
 
-                    $errors = $this->validator->validate($routerModel);
-                    if (count($errors) > 0) {
-                        $errorsString = (string) $errors;
-                        throw new DbRouterGeneratorException($errorsString. 'MAC: ' . $routerModel->getMac());
+                        $errors = $this->validator->validate($routerModel);
+                        if (count($errors) > 0) {
+                            $errorsString = (string) $errors;
+                            throw new DbRouterGeneratorException($errorsString . 'MAC: ' . $routerModel->getMac());
+                        }
+
+                        $em->persist($routerModel);
+                        $em->flush();
                     }
-                    
-                    $em->persist($routerModel);
                 }
-
-                
             }
         }
-        $em->flush();
     }
 
 }

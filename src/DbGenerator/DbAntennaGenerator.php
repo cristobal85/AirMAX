@@ -21,6 +21,8 @@ class DbAntennaGenerator extends DbGenerator implements DbGeneratorInterface {
      */
     public function generate(DhcpConfig $dhcpConfig, EntityManagerInterface $em) {
         $antennaFile = $this->sshAdapter->exec('cat ' . $dhcpConfig->getAntennaPath());
+        $clientRep = $em->getRepository(Client::class);
+        $antennaRep = $em->getRepository(Antenna::class);
         $cpes = explode(PHP_EOL, $antennaFile);
         if (empty($cpes)) {
             throw new DbClientGeneratorException("No se encontraron lineas en el fichero " . $dhcpConfig->getAntennaPath() . ".");
@@ -29,28 +31,31 @@ class DbAntennaGenerator extends DbGenerator implements DbGeneratorInterface {
             $cpeStr = new UnicodeString($cpe);
             $cpeFromFile = $cpeStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # .* - (\d+) - .* - (.*)$/');
             if (!empty($cpeFromFile)) { // ¿BLANK LINE?
-                $clientRep = $em->getRepository(Client::class);
-                $client = $clientRep->findOneBy(['code' => (int) trim($cpeFromFile[4])]);
+                $mac = (int) $cpeFromFile[1];
+                if (!$antennaRep->findOneBy(['mac' => $mac])) {
+                    
+                    $client = $clientRep->findOneBy(['code' => (int) trim($cpeFromFile[4])]);
 
-                if ($client) {
-                    $antenna = new Antenna();
-                    $antenna
-                            ->setClient($client)
-                            ->setMac(trim($cpeFromFile[1]))
-                            ->setAddress(trim($cpeFromFile[5]))
-                    ;
+                    if ($client) {
+                        $antenna = new Antenna();
+                        $antenna
+                                ->setClient($client)
+                                ->setMac(trim($cpeFromFile[1]))
+                                ->setAddress(trim($cpeFromFile[5]))
+                        ;
 
-                    $errors = $this->validator->validate($antenna);
-                    if (count($errors) > 0) {
-                        $errorsString = (string) $errors;
-                        throw new DbAntennaGeneratorException($errorsString . 'MAC: ' . $antenna->getMac());
+                        $errors = $this->validator->validate($antenna);
+                        if (count($errors) > 0) {
+                            $errorsString = (string) $errors;
+                            throw new DbAntennaGeneratorException($errorsString . 'MAC: ' . $antenna->getMac());
+                        }
                     }
-                }
 
-                $em->persist($antenna);
+                    $em->persist($antenna);
+                    $em->flush();
+                }
             }
         }
-        $em->flush();
     }
 
 }
