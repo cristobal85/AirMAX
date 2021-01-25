@@ -3,26 +3,26 @@
 namespace App\Controller;
 
 use App\Entity\Antenna;
-use App\Form\AntennaType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Client;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use App\Form\AntennaType;
 use App\Repository\DhcpConfigRepository;
 use App\Ssh\Adapter\SshAdapter;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use App\Ssh\Exception\SshExceptionInterface;
-use App\Ssh\Command\Dhcp\SshDhcpScriptRestartCommand;
-use App\Ssh\Command\Dhcp\SshDhcpRegisterAntenna;
-use App\Ssh\Command\Dhcp\SshDhcpUnregisterAntenna;
-use \App\Ssh\Command\Dhcp\SshDhcpLogAntenna;
 use App\Ssh\Command\Dhcp\SshDhcpGetIp;
+use App\Ssh\Command\Dhcp\SshDhcpLogAntenna;
+use App\Ssh\Command\Dhcp\SshDhcpRegisterAntenna;
+use App\Ssh\Command\Dhcp\SshDhcpScriptRestartCommand;
+use App\Ssh\Command\Dhcp\SshDhcpUnregisterAntenna;
+use App\Ssh\Exception\SshExceptionInterface;
 use App\Ssh\Exception\SshExecException;
+use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/antenna")
@@ -141,7 +141,10 @@ class AntennaController extends AbstractController {
             $dhcpScriptCmd = new SshDhcpScriptRestartCommand($sshAdapter, $dhcpConfig, $antenna);
             $dhcpScriptCmd->execute();
         } catch (SshExceptionInterface $ex) {
-            throw new BadRequestHttpException($ex->getMessage());
+            return new JsonResponse([
+                'message' => $ex->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+//            throw new BadRequestHttpException($ex->getMessage());
         }
 
         $em->remove($antenna);

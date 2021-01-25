@@ -172,12 +172,12 @@ $('.prompt-item').click(function (e) {
                         resolve();
                     }).fail(function (error) {
                         var response = error.responseJSON;
+                        console.log(response);
                         swal.insertQueueStep({
                             type: 'error',
                             title: el.attr('data-title'),
                             text: response.message,
                         });
-                        console.log(response.log);
                         resolve();
                     });
                 });
