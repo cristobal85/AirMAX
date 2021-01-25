@@ -3,7 +3,7 @@
 namespace App\Checker;
 
 use Symfony\Component\Form\FormInterface;
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SSH2;
 use App\Checker\Utils\CheckSshPath;
 use \App\Checker\CheckStatus;
 

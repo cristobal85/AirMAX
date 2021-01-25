@@ -2,7 +2,7 @@
 
 namespace App\Checker\Utils;
 
-use phpseclib\Net\SSH2;
+use phpseclib3\Net\SSH2;
 
 /**
  * @author Cristóbal Cobos <cristobal.cobos@intnova.com>

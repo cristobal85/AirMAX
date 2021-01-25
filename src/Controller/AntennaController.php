@@ -144,7 +144,6 @@ class AntennaController extends AbstractController {
             return new JsonResponse([
                 'message' => $ex->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-//            throw new BadRequestHttpException($ex->getMessage());
         }
 
         $em->remove($antenna);
