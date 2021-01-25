@@ -38,7 +38,7 @@ class DbClientGenerator extends DbGenerator implements DbGeneratorInterface {
                 $errors = $this->validator->validate($client);
                 if (count($errors) > 0) {
                     $errorsString = (string) $errors;
-                    throw new DbClientGeneratorException($errorsString . 'Código: ' . (string)$client->getCode());
+                    throw new DbClientGeneratorException($errorsString . 'Código de cliente: ' . (string)$client->getCode());
                 }
 
                 $em->persist($client);

@@ -25,7 +25,6 @@ class Client
 
     /**
      * @ORM\Column(type="integer", unique=true)
-     * @Assert\Unique
      */
     private $code;
 
