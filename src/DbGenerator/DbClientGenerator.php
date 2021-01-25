@@ -19,6 +19,7 @@ class DbClientGenerator extends DbGenerator implements DbGeneratorInterface {
      * @throws DbClientGeneratorException
      */
     public function generate(DhcpConfig $dhcpConfig, EntityManagerInterface $em) {
+        $clientRep = $em->getRepository(Client::class);
         $antennaFile = $this->sshAdapter->exec('cat ' . $dhcpConfig->getAntennaPath());
         $cpes = explode(PHP_EOL, $antennaFile);
         if (empty($cpes)) {
@@ -28,20 +29,22 @@ class DbClientGenerator extends DbGenerator implements DbGeneratorInterface {
             $cpeStr = new UnicodeString($cpe);
             $clientFromFile = $cpeStr->match('/.*- (\d+) - ([^⁻]+)-(.*)$/');
             if (!empty($clientFromFile)) {  // ¿BLANK LINE?
-                $client = new Client();
-                $client
-                        ->setCode((int) $clientFromFile[1])
-                        ->setName($clientFromFile[2])
-                        ->setAdress($clientFromFile[3])
-                ;
+                if (!$clientRep->findOneBy(['code' => (int) $clientFromFile[1]])) {
+                    $client = new Client();
+                    $client
+                            ->setCode((int) $clientFromFile[1])
+                            ->setName($clientFromFile[2])
+                            ->setAdress($clientFromFile[3])
+                    ;
 
-                $errors = $this->validator->validate($client);
-                if (count($errors) > 0) {
-                    $errorsString = (string) $errors;
-                    throw new DbClientGeneratorException($errorsString . 'Código de cliente: ' . (string)$client->getCode());
+                    $errors = $this->validator->validate($client);
+                    if (count($errors) > 0) {
+                        $errorsString = (string) $errors;
+                        throw new DbClientGeneratorException($errorsString . 'Código de cliente: ' . (string) $client->getCode());
+                    }
+
+                    $em->persist($client);
                 }
-
-                $em->persist($client);
             }
         }
         $em->flush(); // TODO: catch exception
