@@ -31,7 +31,7 @@ class DbAntennaGenerator extends DbGenerator implements DbGeneratorInterface {
             $cpeStr = new UnicodeString($cpe);
             $cpeFromFile = $cpeStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # .* - (\d+) - .* - (.*)$/');
             if (!empty($cpeFromFile)) { // ¿BLANK LINE?
-                $mac = (int) $cpeFromFile[1];
+                $mac = trim($cpeFromFile[1]);
                 if (!$antennaRep->findOneBy(['mac' => $mac])) {
                     
                     $client = $clientRep->findOneBy(['code' => (int) trim($cpeFromFile[4])]);

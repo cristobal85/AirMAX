@@ -35,7 +35,7 @@ class DbAtaGenerator extends DbGenerator implements DbGeneratorInterface {
             $ataStr = new UnicodeString($ata);
             $ataFromFile = $ataStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # (\d+) - (\d+) - .* - (.*)$/');
             if (!empty($ataFromFile)) { // ¿BLANK LINE o comment?
-                $mac = (int) $cpeFromFile[1];
+                $mac = trim($cpeFromFile[1]);
                 if (!$ataRep->findOneBy(['mac' => $mac])) {
                     $client = $clientRep->findOneBy(['code' => (int) trim($ataFromFile[4])]);
                     if ($client) {

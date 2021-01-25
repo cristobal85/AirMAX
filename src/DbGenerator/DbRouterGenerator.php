@@ -34,7 +34,7 @@ class DbRouterGenerator extends DbGenerator implements DbGeneratorInterface {
             $routerStr = new UnicodeString($router);
             $routerFromFile = $routerStr->match('/.*(([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})); # (\d+) - .* - (.*)$/');
             if (!empty($routerFromFile)) { // ¿BLANK LINE o comment?
-                $mac = (int) $cpeFromFile[1];
+                $mac = trim($cpeFromFile[1]);
                 if (!$routerRep->findOneBy(['mac' => $mac])) {
                     $client = $clientRep->findOneBy(['code' => trim($routerFromFile[4])]);
                     if ($client) {
