@@ -21,7 +21,7 @@ class Ata implements DeviceEntityInterface
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=17, unique=true)
      * @Assert\Regex(pattern="/^([0-9A-Fa-f]{2}[:]){5}([0-9A-Fa-f]{2})$/", message="El formato debe ser XX:XX:XX:XX:XX:XX")
      */
     private $mac;
