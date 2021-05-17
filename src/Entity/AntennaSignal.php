@@ -84,7 +84,7 @@ class AntennaSignal
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 
